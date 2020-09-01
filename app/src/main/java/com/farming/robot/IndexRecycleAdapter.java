@@ -18,8 +18,8 @@ import org.jetbrains.annotations.NotNull;
  * @author: lenovo
  * @date: 2020/8/26
  */
-public class IndexRecycleadapter extends BaseQuickAdapter<IndexEntity, BaseViewHolder>  {
-    public IndexRecycleadapter() {
+public class IndexRecycleAdapter extends BaseQuickAdapter<IndexEntity, BaseViewHolder>  {
+    public IndexRecycleAdapter() {
         super(R.layout.index_item,null);
     }
 

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.farming.robot.IndexRecycleadapter;
+import com.farming.robot.IndexRecycleAdapter;
 import com.farming.robot.R;
 import com.farming.robot.entity.IndexEntity;
 
@@ -26,7 +26,7 @@ public class VideoFragment extends Fragment {
     View view;
     RecyclerView index_recycler_view;
     List<IndexEntity> indexEntities = new ArrayList<>();
-    IndexRecycleadapter indexRecycleadapter;
+    IndexRecycleAdapter indexRecycleadapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class VideoFragment extends Fragment {
         return view;
     }
     private void initList(){
-        indexRecycleadapter=new IndexRecycleadapter();
+        indexRecycleadapter=new IndexRecycleAdapter();
         GridLayoutManager gridLayoutManager =new GridLayoutManager(getActivity(),2);
         index_recycler_view.setLayoutManager(gridLayoutManager);
         index_recycler_view.setAdapter(indexRecycleadapter);

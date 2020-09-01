@@ -4,17 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.farming.robot.IndexRecycleadapter;
+import com.farming.robot.IndexRecycleAdapter;
 import com.farming.robot.R;
 import com.farming.robot.entity.IndexEntity;
+import com.farming.robot.view.GridDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class IndexFragment extends Fragment {
     View view;
     RecyclerView index_recycler_view;
     List<IndexEntity> indexEntities = new ArrayList<>();
-    IndexRecycleadapter indexRecycleadapter;
+    IndexRecycleAdapter indexRecycleadapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,9 +38,10 @@ public class IndexFragment extends Fragment {
         return view;
     }
     private void initList(){
-        indexRecycleadapter=new IndexRecycleadapter();
-        GridLayoutManager gridLayoutManager =new GridLayoutManager(getActivity(),2);
+        indexRecycleadapter=new IndexRecycleAdapter();
+        GridLayoutManager gridLayoutManager =new GridLayoutManager(getActivity(),3);
         index_recycler_view.setLayoutManager(gridLayoutManager);
+        index_recycler_view.addItemDecoration(new GridDivider(getActivity(),2, ContextCompat.getColor(getActivity(),R.color.main_gray)));
         index_recycler_view.setAdapter(indexRecycleadapter);
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
