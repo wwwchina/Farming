@@ -49,6 +49,7 @@ public class ControlFragment extends Fragment {
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
+        indexEntities.add(new IndexEntity("a","b","c"));
 
         controlRecycleAdapter.setNewInstance(indexEntities);
     }

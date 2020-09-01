@@ -29,71 +29,58 @@ public class ControlRecycleAdapter extends BaseQuickAdapter<IndexEntity, BaseVie
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.control_water));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  液体  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("37");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 1:
                 //湿度
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.control_injection));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  注水  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("288%rh");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 2:
                 //光照
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_oxygen));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  盐溶解度  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("377lx");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 3:
                 //臭氧
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_ph));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  酸碱度  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("44ppm");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 4:
                 //二氧化碳
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_nitrogen));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  氮  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("55ppm");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 5:
                 //水位
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_phosphorus));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  磷  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("高");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 6:
                 //工作状态
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_potassium));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("钾");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("正常");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
             case 7:
                 //工作状态
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_electrical));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("电导率");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("正常");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("关");
                 break;
-            case 8:
-                //工作状态
-                ((ImageView) baseViewHolder.getView(R.id.index_img))
-                        .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_traffic));
-                ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("热通量");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("正常");
-                break;
-            case 9:
-                //工作状态
-                ((ImageView) baseViewHolder.getView(R.id.index_img))
-                        .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.soil_water));
-                ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("滴灌");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("正常");
-                break;
+
         }
     }
 }
