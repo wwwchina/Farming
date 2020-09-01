@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.farming.robot.IndexRecycleAdapter;
 import com.farming.robot.R;
+import com.farming.robot.adapter.SoilRecycleAdapter;
 import com.farming.robot.entity.IndexEntity;
 
 import java.util.ArrayList;
@@ -24,22 +25,26 @@ import java.util.List;
  */
 public class SoilFragment extends Fragment {
     View view;
-    RecyclerView index_recycler_view;
+    RecyclerView soil_recycler_view;
     List<IndexEntity> indexEntities = new ArrayList<>();
-    IndexRecycleAdapter indexRecycleadapter;
+    SoilRecycleAdapter soilRecycleAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.index_layout,container,false);
-        index_recycler_view=view.findViewById(R.id.index_recycler_view);
+        view=inflater.inflate(R.layout.soil_layout,container,false);
+        soil_recycler_view=view.findViewById(R.id.soil_recycler_view);
       initList();
         return view;
     }
     private void initList(){
-        indexRecycleadapter=new IndexRecycleAdapter();
+        soilRecycleAdapter=new SoilRecycleAdapter();
         GridLayoutManager gridLayoutManager =new GridLayoutManager(getActivity(),2);
-        index_recycler_view.setLayoutManager(gridLayoutManager);
-        index_recycler_view.setAdapter(indexRecycleadapter);
+        soil_recycler_view.setLayoutManager(gridLayoutManager);
+        soil_recycler_view.setAdapter(soilRecycleAdapter);
+        indexEntities.clear();
+        indexEntities.add(new IndexEntity("a","b","c"));
+        indexEntities.add(new IndexEntity("a","b","c"));
+        indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
@@ -48,6 +53,6 @@ public class SoilFragment extends Fragment {
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
 
-        indexRecycleadapter.setNewInstance(indexEntities);
+        soilRecycleAdapter.setNewInstance(indexEntities);
     }
 }

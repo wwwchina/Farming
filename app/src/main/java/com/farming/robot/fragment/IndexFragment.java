@@ -43,6 +43,7 @@ public class IndexFragment extends Fragment {
         index_recycler_view.setLayoutManager(gridLayoutManager);
         index_recycler_view.addItemDecoration(new GridDivider(getActivity(),2, ContextCompat.getColor(getActivity(),R.color.main_gray)));
         index_recycler_view.setAdapter(indexRecycleadapter);
+        indexEntities.clear();
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));
         indexEntities.add(new IndexEntity("a","b","c"));

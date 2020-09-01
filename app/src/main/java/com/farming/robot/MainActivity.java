@@ -40,15 +40,9 @@ private TextView main_control_index,main_control_soil,main_control_control,main_
         initView();
 
 
+        toIndexFragment();
 
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(indexFragment==null){
-           indexFragment=new IndexFragment();
-        }
-        transaction.add(R.id.main_activity_fragment,indexFragment,"a");
-        transaction.show(indexFragment);
-        transaction.commit();
     }
 private void initView(){
     main_control_index=findViewById(R.id.main_control_index);
@@ -70,12 +64,14 @@ private void initView(){
         switch (v.getId()){
             case R.id.main_control_index://首页
                 top_title.setText("地上信息状态");
+                toIndexFragment();
                 break;
             case R.id.main_control_soil://土壤
                 top_title.setText("土壤信息状态");
+                toSoilFragment();
                 break;
             case R.id.main_control_control://控制
-                top_title.setText("控制");
+                top_title.setText("机器人及大鹏设备控制");
                 break;
             case R.id.main_control_video://视频
                 top_title.setText("视频");
@@ -84,5 +80,25 @@ private void initView(){
                 top_title.setText("设置");
                 break;
         }
+    }
+    private void toIndexFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(indexFragment==null){
+            indexFragment=new IndexFragment();
+//            transaction.add(R.id.main_activity_fragment,indexFragment,"a");
+        }
+
+        transaction.replace(R.id.main_activity_fragment,indexFragment);
+        transaction.commit();
+    }
+    private void toSoilFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(soilFragment==null){
+            soilFragment=new SoilFragment();
+//            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
+        }
+        transaction.replace(R.id.main_activity_fragment,soilFragment);
+//        transaction.show(soilFragment);
+        transaction.commit();
     }
 }
