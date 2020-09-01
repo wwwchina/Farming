@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -70,7 +72,7 @@ public class GridDivider extends RecyclerView.ItemDecoration {
             int right = 0;
 
             //左边第一列
-            if ((i % 3) == 0) {
+            if ((i % ((GridLayoutManager) parent.getLayoutManager()).getSpanCount()) == 0) {
                 //item左边分割线
                 left = child.getLeft();
                 right = left + mDividerHight;
@@ -110,7 +112,7 @@ public class GridDivider extends RecyclerView.ItemDecoration {
             int bottom = 0;
 
             // 最上面一行
-            if ((i / 3) == 0) {
+            if ((i / ((GridLayoutManager) parent.getLayoutManager()).getSpanCount()) == 0) {
                 //当前item最上面的分割线
                 top = child.getTop();
                 //当前item下面的分割线
