@@ -72,6 +72,7 @@ private void initView(){
                 break;
             case R.id.main_control_control://控制
                 top_title.setText("机器人及大鹏设备控制");
+                toControlFragment();
                 break;
             case R.id.main_control_video://视频
                 top_title.setText("视频");
@@ -98,6 +99,16 @@ private void initView(){
 //            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
         }
         transaction.replace(R.id.main_activity_fragment,soilFragment);
+//        transaction.show(soilFragment);
+        transaction.commit();
+    }
+    private void toControlFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(controlFragment==null){
+            controlFragment=new ControlFragment();
+//            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
+        }
+        transaction.replace(R.id.main_activity_fragment,controlFragment);
 //        transaction.show(soilFragment);
         transaction.commit();
     }
