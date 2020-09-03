@@ -79,6 +79,7 @@ private void initView(){
                 break;
             case R.id.main_control_settting://设置
                 top_title.setText("设置");
+                toSettingFragment();
                 break;
         }
     }
@@ -109,6 +110,16 @@ private void initView(){
 //            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
         }
         transaction.replace(R.id.main_activity_fragment,controlFragment);
+//        transaction.show(soilFragment);
+        transaction.commit();
+    }
+    private void toSettingFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(settingFragment==null){
+            settingFragment=new SettingFragment();
+//            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
+        }
+        transaction.replace(R.id.main_activity_fragment,settingFragment);
 //        transaction.show(soilFragment);
         transaction.commit();
     }
