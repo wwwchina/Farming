@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_img_size">20dp</dimen>
+    <dimen name="bottom_text_size">14dp</dimen>
+
+    <dimen name="bottom_img_size_big">25dp</dimen>
+    <dimen name="bottom_text_size_big">16dp</dimen>
+    <dimen name="bottom_txt_img">5dp</dimen>
+</resources>

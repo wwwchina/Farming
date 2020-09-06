@@ -3,57 +3,140 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+   <LinearLayout
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       android:layout_gravity="center_vertical"
+       android:layout_weight="1"
+       android:orientation="vertical"
+       android:id="@+id/main_control_index_layout"
+       android:gravity="center"
+       >
 
+       <ImageView
+           android:id="@+id/main_control_index_img"
+           android:layout_width="@dimen/bottom_img_size"
+           android:layout_height="@dimen/bottom_img_size"
+           android:layout_gravity="center"
+           android:src="@drawable/index" />
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="首页"
         android:textColor="@color/blue"
-        android:textSize="18dp"
-        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/bottom_text_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/bottom_txt_img"
         android:gravity="center"
         android:id="@+id/main_control_index" />
-    <TextView
+   </LinearLayout>
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="土壤"
-        android:textColor="@color/blue"
-        android:textSize="18dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/main_control_soil_layout"
         android:gravity="center"
-        android:id="@+id/main_control_soil" />
-    <TextView
+        >
+        <ImageView
+            android:layout_width="@dimen/bottom_img_size"
+            android:layout_height="@dimen/bottom_img_size"
+            android:layout_gravity="center"
+            android:src="@drawable/soil"
+            android:id="@+id/main_control_soil_img"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="土壤"
+            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/bottom_txt_img"
+            android:textSize="@dimen/bottom_text_size"
+            android:id="@+id/main_control_soil" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="控制"
-        android:textColor="@color/blue"
-        android:textSize="18dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/main_control_control_layout"
         android:gravity="center"
-        android:id="@+id/main_control_control" />
+        >
+        <ImageView
+            android:layout_width="@dimen/bottom_img_size"
+            android:layout_height="@dimen/bottom_img_size"
+            android:layout_gravity="center"
+            android:src="@drawable/control"
+            android:id="@+id/main_control_control_img"
 
-    <TextView
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="控制"
+            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/bottom_txt_img"
+            android:textSize="@dimen/bottom_text_size"
+            android:id="@+id/main_control_control" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="视频"
-        android:textColor="@color/blue"
-        android:textSize="18dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/main_control_video_layout"
         android:gravity="center"
-        android:id="@+id/main_control_video" />
-
-    <TextView
+        >
+        <ImageView
+            android:layout_width="@dimen/bottom_img_size"
+            android:layout_height="@dimen/bottom_img_size"
+            android:layout_gravity="center"
+            android:src="@drawable/video"
+            android:id="@+id/bottom_text_size_img"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频"
+            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/bottom_txt_img"
+            android:textSize="@dimen/bottom_text_size"
+            android:id="@+id/main_control_video" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="设置"
-        android:textColor="@color/blue"
-        android:textSize="18dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/main_control_settting_layout"
         android:gravity="center"
-        android:id="@+id/main_control_settting" />
+        >
+        <ImageView
+            android:layout_width="@dimen/bottom_img_size"
+            android:layout_height="@dimen/bottom_img_size"
+            android:layout_gravity="center"
+            android:src="@drawable/setting"
+            android:id="@+id/main_control_settting_img"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置"
+            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/bottom_txt_img"
+            android:textSize="@dimen/bottom_text_size"
+            android:id="@+id/main_control_settting" />
+    </LinearLayout>
 </LinearLayout>

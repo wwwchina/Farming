@@ -1,198 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      >
-<ImageView
-    android:layout_width="30dp"
-    android:layout_height="30dp"
-    android:src="@drawable/control_speed"
-    />
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="速度"
-          android:textSize="15dp"
-          android:layout_gravity="center_vertical"
-          android:layout_marginLeft="10dp"
-          />
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:orientation="horizontal"
-    android:gravity="center"
-
-    >
-    <TextView
-        android:id="@+id/control_speed_l"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="低"
-        android:textSize="15dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:background="@drawable/circle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/control_speed_m"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-    <TextView
-        android:id="@+id/control_speed_m"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="中"
-        android:textSize="15dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:background="@drawable/circle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/control_speed_l"
-        app:layout_constraintRight_toLeftOf="@id/control_speed_h"
-        />
-    <TextView
-        android:id="@+id/control_speed_h"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="高"
-        android:textSize="15dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:background="@drawable/circle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/control_speed_m"
-        app:layout_constraintRight_toLeftOf="@id/control_speed_s"
-        />
-    <TextView
-        android:id="@+id/control_speed_s"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="停"
-        android:textSize="15dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:background="@drawable/circle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/control_speed_h"
-        app:layout_constraintRight_toRightOf="parent"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
-  </LinearLayout>
-
-</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/wind_speed"
-                />
+                android:src="@drawable/control_speed" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="风度"
-                android:textSize="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                />
+                android:text="速度"
+                android:textSize="15dp" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
 
                 >
+
+                <TextView
+                    android:id="@+id/control_speed_l"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:text="低"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/control_speed_m"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/control_speed_m"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:text="中"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/control_speed_l"
+                    app:layout_constraintRight_toLeftOf="@id/control_speed_h"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/control_speed_h"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:text="高"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/control_speed_m"
+                    app:layout_constraintRight_toLeftOf="@id/control_speed_s"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/control_speed_s"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:text="停"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/control_speed_h"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/wind_speed" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="风度"
+                android:textSize="15dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:orientation="horizontal"
+
+                >
+
                 <TextView
                     android:id="@+id/control_wind_l"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
                     android:text="低"
                     android:textSize="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:background="@drawable/circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/control_wind_m"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/control_wind_m"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
                     android:text="中"
                     android:textSize="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:background="@drawable/circle"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/control_wind_l"
                     app:layout_constraintRight_toLeftOf="@id/control_wind_h"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/control_wind_h"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
                     android:text="高"
                     android:textSize="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:background="@drawable/circle"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/control_wind_m"
                     app:layout_constraintRight_toLeftOf="@id/control_wind_s"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/control_wind_s"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
                     android:text="停"
                     android:textSize="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:background="@drawable/circle"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/control_wind_h"
                     app:layout_constraintRight_toRightOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </LinearLayout>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/control_recycler_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+        android:id="@+id/control_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
