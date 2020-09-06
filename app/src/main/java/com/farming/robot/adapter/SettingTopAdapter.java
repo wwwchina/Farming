@@ -26,6 +26,9 @@ public class SettingTopAdapter extends BaseQuickAdapter<IndexEntity, BaseViewHol
         switch (baseViewHolder.getLayoutPosition()){
             case 0:
                 baseViewHolder.setText(R.id.setting_bottom_top,"温度");
+                baseViewHolder.getView(R.id.setting_top_img).setBackground(ContextCompat.getDrawable(
+                        getContext(),R.drawable.setting_circle_gray
+                ));
                 break;
             case 1:
                 baseViewHolder.setText(R.id.setting_bottom_top,"湿度");

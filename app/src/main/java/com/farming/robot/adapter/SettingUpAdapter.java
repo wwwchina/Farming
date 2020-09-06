@@ -38,6 +38,9 @@ public class SettingUpAdapter extends BaseQuickAdapter<IndexEntity, BaseViewHold
                 break;
             case 4:
                 baseViewHolder.setText(R.id.setting_bottom_top,"臭氧");
+                baseViewHolder.getView(R.id.setting_top_img).setBackground(ContextCompat.getDrawable(
+                        getContext(),R.drawable.setting_circle_gray
+                ));
                 break;
             case 5:
                 baseViewHolder.setText(R.id.setting_bottom_top,"待用");

@@ -115,7 +115,7 @@ private void initView(){
                 toSoilFragment();
                 break;
             case R.id.main_control_control_layout://控制
-                top_title.setText("机器人及大鹏设备控制");
+                top_title.setText("机器人及大棚设备控制");
                 toControlFragment();
                 break;
             case R.id.main_control_video_layout://视频
