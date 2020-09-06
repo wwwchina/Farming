@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.farming.robot.fragment.Camera2BasicFragment;
 import com.farming.robot.fragment.ControlFragment;
 import com.farming.robot.fragment.IndexFragment;
 import com.farming.robot.fragment.SettingFragment;
@@ -34,6 +35,10 @@ private SoilFragment soilFragment;
 private ControlFragment controlFragment;
 private VideoFragment videoFragment;
 private SettingFragment settingFragment;
+private Camera2BasicFragment camera2BasicFragment;
+
+
+
 private TextView main_control_index
         ,main_control_soil
         ,main_control_control
@@ -115,6 +120,7 @@ private void initView(){
                 break;
             case R.id.main_control_video_layout://视频
                 top_title.setText("视频");
+                toVideoFragment();
                 break;
             case R.id.main_control_settting_layout://设置
                 top_title.setText("设置");
@@ -186,6 +192,29 @@ private void initView(){
 //            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
         }
         transaction.replace(R.id.main_activity_fragment,controlFragment);
+//        transaction.show(soilFragment);
+        transaction.commit();
+    }
+    private void toVideoFragment(){
+
+
+        scalBottom(6,main_control_index_img
+                ,main_control_index
+                ,main_control_soil_img
+                ,main_control_soil
+                ,main_control_control_img
+                ,main_control_control
+                ,bottom_text_size_img
+                ,main_control_video
+                ,main_control_settting_img
+                ,main_control_settting);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(camera2BasicFragment==null){
+            camera2BasicFragment=new Camera2BasicFragment();
+//            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
+        }
+        transaction.replace(R.id.main_activity_fragment,camera2BasicFragment);
 //        transaction.show(soilFragment);
         transaction.commit();
     }
