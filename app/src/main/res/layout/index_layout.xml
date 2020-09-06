@@ -37,7 +37,7 @@
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumb="@drawable/switch_thumb"
+            android:thumb="@drawable/switch_index"
             android:track="@drawable/switch_selector"
             android:layout_alignParentRight="true"
             />
@@ -63,13 +63,13 @@
             android:text="（远程网）"
             android:layout_centerInParent="true"
             />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_selector"
             android:layout_alignParentRight="true"
-            />
+            android:thumb="@drawable/switch_index"
+            android:track="@drawable/switch_selector" />
     </RelativeLayout>>
 
 </LinearLayout>

@@ -7,6 +7,7 @@
     android:paddingLeft="15dp"
     >
     <TextView
+        android:id="@+id/setting_bottom_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

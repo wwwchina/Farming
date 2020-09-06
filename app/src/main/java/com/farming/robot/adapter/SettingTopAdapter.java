@@ -23,6 +23,25 @@ public class SettingTopAdapter extends BaseQuickAdapter<IndexEntity, BaseViewHol
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, IndexEntity indexEntity) {
-
+        switch (baseViewHolder.getLayoutPosition()){
+            case 0:
+                baseViewHolder.setText(R.id.setting_bottom_top,"温度");
+                break;
+            case 1:
+                baseViewHolder.setText(R.id.setting_bottom_top,"湿度");
+                break;
+            case 2:
+                baseViewHolder.setText(R.id.setting_bottom_top,"PH值");
+                break;
+            case 3:
+                baseViewHolder.setText(R.id.setting_bottom_top,"氮磷钾");
+                break;
+            case 4:
+                baseViewHolder.setText(R.id.setting_bottom_top,"电导率");
+                break;
+            case 5:
+                baseViewHolder.setText(R.id.setting_bottom_top,"热通量");
+                break;
+        }
     }
 }
