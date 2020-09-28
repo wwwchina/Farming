@@ -58,8 +58,16 @@
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:gravity="center_vertical"
-
+        android:visibility="visible"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/top_right"
+            android:layout_centerInParent="true"
+            android:text="服务未开启"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            />
     </LinearLayout>
 </RelativeLayout>

@@ -25,6 +25,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
 
+    api project(path: ':socket-client')
+    api project(path: ':socket-server')
 
 
 

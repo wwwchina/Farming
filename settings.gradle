@@ -1,3 +1,7 @@
 
+include ':socket-server'
+include ':socket-core'
+include ':socket-client'
+include ':socket-common-interface'
 include ':app'
 rootProject.name = "Farming"
