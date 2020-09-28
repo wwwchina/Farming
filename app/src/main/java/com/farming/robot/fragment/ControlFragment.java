@@ -39,7 +39,8 @@ public class ControlFragment extends Fragment {
                control_speed_s;
     TextView control_wind_l,
              control_wind_m,
-            control_wind_h;
+            control_wind_h,
+            control_wind_s;
 
     @Nullable
     @Override
@@ -55,6 +56,7 @@ public class ControlFragment extends Fragment {
         control_wind_l=view.findViewById(R.id.control_wind_l);
         control_wind_m=view.findViewById(R.id.control_wind_m);
         control_wind_h=view.findViewById(R.id.control_wind_h);
+        control_wind_s=view.findViewById(R.id.control_wind_s);
         open_device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +67,10 @@ public class ControlFragment extends Fragment {
         control_speed_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                control_speed_l.setSelected(true);
+                control_speed_m.setSelected(false);
+                control_speed_h.setSelected(false);
+                control_speed_s.setSelected(false);
                 //低速
                 ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020101454E44");
 
@@ -73,6 +79,10 @@ public class ControlFragment extends Fragment {
         control_speed_m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                control_speed_l.setSelected(false);
+                control_speed_m.setSelected(true);
+                control_speed_h.setSelected(false);
+                control_speed_s.setSelected(false);
                 //中速
                 ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020102454E44");
             }
@@ -80,13 +90,12 @@ public class ControlFragment extends Fragment {
         control_speed_h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                control_speed_l.setSelected(false);
+                control_speed_m.setSelected(false);
+                control_speed_h.setSelected(true);
+                control_speed_s.setSelected(false);
                 //高速
-                ((MainActivity) getActivity()).iClient.send(
-                        new MsgDataBean(
-//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
-                                "434D445F4B4559413032020103454E44")
-
-                );
+                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020103454E44");
             }
         });
 
@@ -94,37 +103,46 @@ public class ControlFragment extends Fragment {
         control_wind_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).iClient.send(
-                        new MsgDataBean(
-//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
-                                "434D445F4B4559413032020201454E44")
+                control_wind_l.setSelected(true);
+                control_wind_m.setSelected(false);
+                control_wind_h.setSelected(false);
+                control_wind_s.setSelected(false);
+                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020201454E44");
 
-                );
             }
         });
 
         control_wind_m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).iClient.send(
-                        new MsgDataBean(
-//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
-                                "434D445F4B4559413032020202454E44")
-
-                );
+                control_wind_l.setSelected(false);
+                control_wind_m.setSelected(true);
+                control_wind_h.setSelected(false);
+                control_wind_s.setSelected(false);
+                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020202454E44");
             }
         });
         control_wind_h.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).iClient.send(
-                        new MsgDataBean(
-//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
-                                "434D445F4B4559413032020203454E44")
-
-                );
+                control_wind_l.setSelected(false);
+                control_wind_m.setSelected(false);
+                control_wind_h.setSelected(true);
+                control_wind_s.setSelected(false);
+                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020203454E44");
             }
 
+        });
+        control_wind_s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                control_wind_l.setSelected(false);
+                control_wind_m.setSelected(false);
+                control_wind_h.setSelected(false);
+                control_wind_s.setSelected(true);
+                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020200454E44");
+
+            }
         });
       initList();
         return view;

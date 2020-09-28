@@ -58,10 +58,10 @@
 
                 <TextView
                     android:id="@+id/control_speed_l"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="低"
                     android:textSize="15dp"
@@ -72,10 +72,10 @@
 
                 <TextView
                     android:id="@+id/control_speed_m"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="中"
                     android:textSize="15dp"
@@ -86,10 +86,10 @@
 
                 <TextView
                     android:id="@+id/control_speed_h"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="高"
                     android:textSize="15dp"
@@ -100,10 +100,10 @@
 
                 <TextView
                     android:id="@+id/control_speed_s"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="停"
                     android:textSize="15dp"
@@ -152,10 +152,10 @@
 
                 <TextView
                     android:id="@+id/control_wind_l"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="低"
                     android:textSize="15dp"
@@ -166,10 +166,10 @@
 
                 <TextView
                     android:id="@+id/control_wind_m"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="中"
                     android:textSize="15dp"
@@ -180,10 +180,10 @@
 
                 <TextView
                     android:id="@+id/control_wind_h"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="高"
                     android:textSize="15dp"
@@ -194,10 +194,10 @@
 
                 <TextView
                     android:id="@+id/control_wind_s"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/speed_dismens"
+                    android:layout_height="@dimen/speed_dismens"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/circle"
+                    android:background="@drawable/circle_selector"
                     android:gravity="center"
                     android:text="停"
                     android:textSize="15dp"
