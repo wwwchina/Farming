@@ -8,13 +8,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,7 +52,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IClientIOCallback {
 private   TextView top_title;
@@ -93,6 +99,17 @@ private ImageView main_control_settting_img
     private PopupWindow mPopupWindow;
 
     private LinearLayout green_house_ll;
+
+
+    private float bgAlpha = 1f;
+    private boolean bright = false;
+
+    private static final long DURATION = 500;
+    private static final float START_ALPHA = 0.7f;
+    private static final float END_ALPHA = 1f;
+
+
+    private TextView toggle_house_1,toggle_house_2,toggle_house_3,toggle_house_4,toggle_house_5,toggle_house_6;
 
     Handler handler =new Handler(){
         @Override
@@ -148,10 +165,18 @@ private ImageView main_control_settting_img
         findViewById(R.id.default_back).setVisibility(View.INVISIBLE);
         top_right = findViewById(R.id.top_right);
         findViewById(R.id.default_right).setVisibility(View.VISIBLE);
-        findViewById(R.id.green_house_ll).setOnClickListener(new View.OnClickListener() {
+        green_house_ll = findViewById(R.id.green_house_ll);
+        mPopupWindow =new PopupWindow();
+        green_house_ll.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        initPopuWindow();
+                        return true;
+                }
 
+                return true;
             }
         });
         top_title= findViewById(R.id.top_title);
@@ -209,7 +234,6 @@ private ImageView main_control_settting_img
 //                        return val;
 //                    }
 //                });
-                iClient =client;
             }
 
             @Override
@@ -256,7 +280,39 @@ private ImageView main_control_settting_img
 
     private void initPopuWindow(){
         // 设置布局文件
-        mPopupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.popup_layout, null));
+        View view=LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
+        mPopupWindow.setContentView(view);
+
+      List<TextView> lts=new ArrayList<>();
+
+
+        toggle_house_1=view.findViewById(R.id.toggle_house_1);
+        lts.add(toggle_house_1);
+        toggle_house_2=view.findViewById(R.id.toggle_house_2);
+        lts.add(toggle_house_2);
+        toggle_house_3=view.findViewById(R.id.toggle_house_3);
+        lts.add(toggle_house_3);
+        toggle_house_4=view.findViewById(R.id.toggle_house_4);
+        lts.add(toggle_house_4);
+        toggle_house_5=view.findViewById(R.id.toggle_house_5);
+        lts.add(toggle_house_5);
+        toggle_house_6=view.findViewById(R.id.toggle_house_6);
+        lts.add(toggle_house_6);
+        for (int i = 0; i < lts.size(); i++) {
+            lts.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setAction("android.intent.action.MAIN");
+                    ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.Settings$TetherSettingsActivity");
+                    intent.setComponent(cn);
+                    startActivity(intent);
+                    mPopupWindow.dismiss();
+                }
+            });
+        }
+//        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         // 为了避免部分机型不显示，我们需要重新设置一下宽高
         mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -265,44 +321,25 @@ private ImageView main_control_settting_img
         // 设置pop出入动画
         mPopupWindow.setAnimationStyle(R.style.pop_add);
         // 设置pop获取焦点，如果为false点击返回按钮会退出当前Activity，如果pop中有Editor的话，focusable必须要为true
-        mPopupWindow.setFocusable(true);
+        mPopupWindow.setFocusable(false);
         // 设置pop可点击，为false点击事件无效，默认为true
         mPopupWindow.setTouchable(true);
         // 设置点击pop外侧消失，默认为false；在focusable为true时点击外侧始终消失
         mPopupWindow.setOutsideTouchable(true);
         // 相对于 + 号正下面，同时可以设置偏移量
-        mPopupWindow.showAsDropDown(iv_add, -100, 0);
+        mPopupWindow.showAsDropDown(green_house_ll, -100, 0);
         // 设置pop关闭监听，用于改变背景透明度
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                toggleBright();
+//                toggleBright();
             }
         });
 
 
     }
 
-    private void toggleBright() {
-        // 三个参数分别为：起始值 结束值 时长，那么整个动画回调过来的值就是从0.5f--1f的
-        animUtil.setValueAnimator(START_ALPHA, END_ALPHA, DURATION);
-        animUtil.addUpdateListener(new AnimUtil.UpdateListener() {
-            @Override
-            public void progress(float progress) {
-                // 此处系统会根据上述三个值，计算每次回调的值是多少，我们根据这个值来改变透明度
-                bgAlpha = bright ? progress : (START_ALPHA + END_ALPHA - progress);
-                backgroundAlpha(bgAlpha);
-            }
-        });
-        animUtil.addEndListner(new AnimUtil.EndListener() {
-            @Override
-            public void endUpdate(Animator animator) {
-                // 在一次动画结束的时候，翻转状态
-                bright = !bright;
-            }
-        });
-        animUtil.startAnimator();
-    }
+
 
 private void initView(){
     main_control_index=findViewById(R.id.main_control_index);
