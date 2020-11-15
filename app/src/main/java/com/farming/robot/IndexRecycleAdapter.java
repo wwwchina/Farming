@@ -31,35 +31,48 @@ public class IndexRecycleAdapter extends BaseQuickAdapter<IndexEntity, BaseViewH
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.tempature));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  温度  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("37");
+                float val=Integer.parseInt(indexEntity.getStr3(),16)/10f;
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom))
+                        .setText(val+"");
                 break;
             case 1:
                 //湿度
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.humidity));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  湿度  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("288%rh");
+
+
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom))
+                        .setText( Integer.parseInt(indexEntity.getStr3(),16)/10f+"%rh");
+
+//                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("288%rh");
                 break;
             case 2:
                 //光照
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.light));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  光照  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("377lx");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom))
+                        .setText( Integer.parseInt(indexEntity.getStr3(),16)/10f+"lx");
+//                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("377lx");
                 break;
             case 3:
                 //臭氧
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ozone));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("  臭氧  ");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("44ppm");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom))
+                        .setText( Integer.parseInt(indexEntity.getStr3(),16)/10f+"%ppm");
+//                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("44ppm");
                 break;
             case 4:
                 //二氧化碳
                 ((ImageView) baseViewHolder.getView(R.id.index_img))
                         .setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.carbon));
                 ((TextView) baseViewHolder.getView(R.id.index_right_top)).setText("二氧化碳");
-                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("55ppm");
+                ((TextView) baseViewHolder.getView(R.id.index_right_bottom))
+                        .setText( Integer.parseInt(indexEntity.getStr3(),16)/10f+"%ppm");
+//                ((TextView) baseViewHolder.getView(R.id.index_right_bottom)).setText("55ppm");
                 break;
             case 5:
                 //水位

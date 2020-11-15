@@ -32,14 +32,28 @@ public class ByteUtil {
         return builder.toString().toUpperCase();
     }
 
-    public static  String[] byte2StrByASCII(byte[] buffer, int size){
+    public static  String byte2StrByASCII(byte[] buffer){
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < buffer.length; i++) {
             sb.append(((char) buffer[i]));
         }
-        return null;
+        return sb.toString();
     }
-    
+
+    /**
+     * Ascii转换为字符串
+     * @param value
+     * @return
+     */
+    public static String asciiToString(String value)
+    {
+        StringBuffer sbu = new StringBuffer();
+        String[] chars = value.split(",");
+        for (int i = 0; i < chars.length; i++) {
+            sbu.append((char) Integer.parseInt(chars[i]));
+        }
+        return sbu.toString();
+    }
     public static String[] bytes2HexStrArray(byte[] src, int size) {
         String[] strings=new String[size];
 
@@ -119,8 +133,15 @@ public class ByteUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getRobotCommand("CMD_KEYA022C1END"));
-//        System.out.println(hexStr2Str("434D445F4B4559413032020C01454E44"));
+//        System.out.println(getRobotCommand("CMD_KEYA022C1END"));
+        int a=261;
+
+        System.out.println(a/10f);
+//        System.out.println("s".getBytes());
+
+        //        System.out.println(hexStr2Str("434D445F4B4559413032020C01454E44"));
+//        char val='';
+//        System.out.println(val);
     }
     public static String getRobotCommand(String string){
         String first=string.substring(0,string.indexOf("END")-3);
@@ -134,6 +155,31 @@ public class ByteUtil {
             str+="0"+s.charAt(i);
         }
         return str;
+    }
+    public static String getRobotReponse(byte[] bytes){
+/*
+99 109 100 95 107 101 121 97 97 48 48   15      0 0         0 0      0 1 0 0 0 0 0 0 0 2 0 3   101 110
+ */
+        String length ="";
+        int lenghtIndex=0;
+        for (int i = 0; i < bytes.length; i++) {
+            if((bytes[i]==48&&bytes[i+1]==48)||
+                    (bytes[i]==48&&bytes[i+1]==49)
+            ){
+                length=  bytes[i+2]+"";
+                lenghtIndex=(i+3);
+                break;
+            }
+        }
+
+        String result="";
+        for (int i = lenghtIndex; i <(lenghtIndex+Integer.parseInt(length)) ; i++) {
+            result+=((((bytes[i]+"").length()<2)?"0":"")
+                    + bytes[i]+(i==(11+Integer.parseInt(length))?"":","));
+        }
+
+       return result;
+
     }
     /**
      * 字符串转十六进制字符串
@@ -188,6 +234,7 @@ public class ByteUtil {
         }
     }
 
+
 //    public static void main(String[] args) {
 //        String testStr="0D0ABDD3CAD5B3C9B9A6A1FACAFDBEDDB4A6C0ED0D0AD1A1D4F1C0E0D0CDCEAA30A1FAC7EBC7F3B7B4C0A1A1FAB4F3B1C3B5E7C1F7B2C9BCAFA1FAB5C8B4FDB7B4C0A10D0A0D0AB1EAD6BECEBB3A310D0AC7E5B3FDB1EAD6BECEBB3A300D0ACEB4BFAAC6F449443A310D0AB7A2CBCDB5C4CAFDBEDDD2D1CCEDBCD3D0A3D1E93A310D0AD2AAB7A2CBCDB5C4CAFDBEDD3A32303030306361340D" ;
 //        String testStr2=        "0100000000000001";
@@ -235,7 +282,7 @@ public class ByteUtil {
         }
         try {
 
-            return new String(bytes,"GB2312");
+            return new String(bytes,"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return "";
@@ -308,6 +355,13 @@ public class ByteUtil {
                 return -1;
         }
     }
+
+//    public static String getReponseHexStr(String[] datas){
+//        for (String str:
+//             datas) {
+//            if(str.equals("0"))
+//        }
+//    }
 
     /*
     与单片机通讯汇总

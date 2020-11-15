@@ -19,6 +19,7 @@ import com.farming.robot.R;
 import com.farming.robot.adapter.ControlRecycleAdapter;
 import com.farming.robot.data.MsgDataBean;
 import com.farming.robot.entity.IndexEntity;
+import com.farming.robot.util.CommandUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,8 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020C01454E44");
+//                ((MainActivity) getActivity()).sendCommand("434D445F4B4559413032020C01454E44");
+                ((MainActivity) getActivity()).sendCommand(CommandUtil.OPEN_DEVICE_COMMAND_HEX);
             }
         });
         control_speed_l.setOnClickListener(new View.OnClickListener() {

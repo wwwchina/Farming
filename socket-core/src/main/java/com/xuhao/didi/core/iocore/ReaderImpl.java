@@ -12,6 +12,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Created by xuhao on 2017/5/31.
@@ -147,51 +148,68 @@ public class ReaderImpl extends AbsReader {
         }
     }
     //接收String
-//    @Override
-//    public void read() throws RuntimeException {
-//        OriginalData originalData = new OriginalData();
-//        try {
-//            InputStream is = mInputStream;
-//            DataInputStream input = new DataInputStream(is);
-//            byte[] b = new byte[1024];
-//
-//            int len = 0;
-//            String response = "";
-//            while (true) {
-//                len = input.read(b);
-//                response = new String(b, 0, len);
-//                originalData.setBodyBytes(response.getBytes());
-//                mStateSender.sendBroadcast(IOAction.ACTION_READ_COMPLETE, originalData);
-//            }
-//        }catch (IOException e){
-//           e.printStackTrace();
-//        }
-//
-//    }
-
-    //接收byte数组
     @Override
     public void read() throws RuntimeException {
         OriginalData originalData = new OriginalData();
         try {
             InputStream is = mInputStream;
             DataInputStream input = new DataInputStream(is);
-            byte[] b = new byte[1024*1024];
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
 
             int len = 0;
+            String response = "";
             while (true) {
                 len = input.read(b);
-                bos.write(b,0,len);
-                originalData.setBodyBytes(bos.toByteArray());
+                response = new String(b, 0, len);
+                originalData.setBodyBytes(response.getBytes());
                 mStateSender.sendBroadcast(IOAction.ACTION_READ_COMPLETE, originalData);
-                bos.reset();
             }
-        } catch (Exception e) {
-            ReadException readException = new ReadException(e);
-            throw readException;
+        }catch (IOException e){
+           e.printStackTrace();
         }
 
     }
+
+    //接收byte数组
+//    @Override
+//    public void read() throws RuntimeException {
+//        OriginalData originalData = new OriginalData();
+//        try {
+//            InputStream is = mInputStream;
+//            DataInputStream input = new DataInputStream(is);
+//            byte[] b = new byte[1024*1024];
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//
+//            int len = 0;
+//            while (true) {
+//                len = input.read(b);
+//                bos.write(b,0,len);
+//                originalData.setBodyBytes(bos.toByteArray());
+//                mStateSender.sendBroadcast(IOAction.ACTION_READ_COMPLETE, originalData);
+//                bos.reset();
+//            }
+//        } catch (Exception e) {
+//            ReadException readException = new ReadException(e);
+//            throw readException;
+//        }
+//
+//    }
+    //接收byte数组
+//    @Override
+//    public void read() throws RuntimeException {
+//        OriginalData originalData = new OriginalData();
+//        try {
+//            while (true) {
+//                byte[] buff = new byte[1024 * 5];
+//                int len = mInputStream.read(buff);
+//                byte[] data = Arrays.copyOfRange(buff, 0, len);
+//                originalData.setBodyBytes(data);
+//                mStateSender.sendBroadcast(IOAction.ACTION_READ_COMPLETE, originalData);
+//            }
+//        } catch (Exception e) {
+//            ReadException readException = new ReadException(e);
+//            throw readException;
+//        }
+//    }
 
 }
