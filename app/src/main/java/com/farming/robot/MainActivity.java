@@ -4,18 +4,32 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.location.LocationManagerCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,11 +49,19 @@ import com.farming.robot.fragment.SoilFragment;
 import com.farming.robot.fragment.VideoFragment;
 import com.farming.robot.util.ByteUtil;
 import com.farming.robot.util.CommandUtil;
+import com.farming.robot.util.NetUtils;
+import com.xuhao.didi.core.iocore.interfaces.IPulseSendable;
 import com.xuhao.didi.core.iocore.interfaces.ISendable;
 import com.xuhao.didi.core.pojo.OriginalData;
+import com.xuhao.didi.core.utils.BytesUtils;
 import com.xuhao.didi.core.utils.SLog;
+import com.xuhao.didi.socket.client.impl.client.action.ActionDispatcher;
 import com.xuhao.didi.socket.client.sdk.OkSocket;
+import com.xuhao.didi.socket.client.sdk.client.ConnectionInfo;
 import com.xuhao.didi.socket.client.sdk.client.OkSocketOptions;
+import com.xuhao.didi.socket.client.sdk.client.action.SocketActionAdapter;
+import com.xuhao.didi.socket.client.sdk.client.connection.IConnectionManager;
+import com.xuhao.didi.socket.client.sdk.client.connection.NoneReconnect;
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClient;
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClientIOCallback;
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClientPool;
@@ -50,10 +72,16 @@ import com.xuhao.didi.socket.server.impl.OkServerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IClientIOCallback {
@@ -90,8 +118,11 @@ private ImageView main_control_settting_img
     private TextView mIPTv;
 
     private int mPort = 6000;
+    public String firstIp = "192.168.0.1";
+
+
     public IClient iClient;
-    private OkSocketOptions mOkOptions;
+    private OkSocketOptions mOkOptions,mOkOptions2;
     public int nowPosition=0;
 
 
@@ -162,17 +193,23 @@ private ImageView main_control_settting_img
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.default_back).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.default_back).setVisibility(View.INVISIBLE);
         top_right = findViewById(R.id.top_right);
         findViewById(R.id.default_right).setVisibility(View.VISIBLE);
         green_house_ll = findViewById(R.id.green_house_ll);
         mPopupWindow =new PopupWindow();
+        initPopuWindow();
         green_house_ll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
-                        initPopuWindow();
+                        if(!mPopupWindow.isShowing()){
+                            mPopupWindow.showAsDropDown(green_house_ll, -100, 0);
+                        }else{
+                            mPopupWindow.dismiss();
+                        }
+
                         return true;
                 }
 
@@ -181,7 +218,7 @@ private ImageView main_control_settting_img
         });
         top_title= findViewById(R.id.top_title);
         top_title.setText("地上信息状态");
-
+        mWifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         initView();
 //        new Thread(new Runnable() {
 //            @Override
@@ -193,8 +230,13 @@ private ImageView main_control_settting_img
 
         toIndexFragment();
 
-
-
+        ArrayList<String> connectedIP = BytesUtils.getConnectedIP();
+        StringBuilder resultList = new StringBuilder();
+        for (String ip : connectedIP) {
+            resultList.append(ip);
+            resultList.append("\n");
+        }
+         Log.e("连接上wifi的ip地址",getIPAddress());
         OkServerOptions.setIsDebug(false);
 
         OkSocketOptions.setIsDebug(false);
@@ -203,81 +245,117 @@ private ImageView main_control_settting_img
 
 
 
-        mServerManager = OkSocket.server(mPort).registerReceiver(new ServerActionAdapter() {
-            @Override
-            public void onServerListening(int serverPort) {
-                Log.i("ServerCallback监听", Thread.currentThread().getName() + " onServerListening,serverPort:" + serverPort);
-//                top_right.setText("已开启监听");
-                setRightText("已开启监听");
-            }
-
-            @Override
-            public void onClientConnected(IClient client, int serverPort, IClientPool clientPool) {
-                Log.i("ServerCallback连接", Thread.currentThread().getName() + " onClientConnected,serverPort:" + serverPort + "--ClientNums:" + clientPool.size() + "--ClientTag:" + client.getUniqueTag());
-                client.addIOCallback(MainActivity.this);
-//                top_right.setText("已连接");
-                setRightText("已连接");
-                handler.sendEmptyMessage(CommandUtil.HANDLER_WHAT_COMMAND);
-//                client.setReaderProtocol(new IReaderProtocol() {
-//                    @Override
-//                    public int getHeaderLength() {
-//                        return 5;
-//                    }
+//        mServerManager = OkSocket.server(mPort).registerReceiver(new ServerActionAdapter() {
+//            @Override
+//            public void onServerListening(int serverPort) {
+//                Log.i("ServerCallback监听", Thread.currentThread().getName() + " onServerListening,serverPort:" + serverPort);
+////                top_right.setText("已开启监听");
+//                setRightText("已开启监听");
+//            }
 //
-//                    @Override
-//                    public int getBodyLength(byte[] header, ByteOrder byteOrder) {
-//                        ByteBuffer bb=ByteBuffer.allocate(header.length);
-//                        bb.order(byteOrder);
-//                        bb.put(header);
-//                        int val=bb.getInt(1);
+//            @Override
+//            public void onClientConnected(IClient client, int serverPort, IClientPool clientPool) {
+//                Log.i("ServerCallback连接", Thread.currentThread().getName() + " onClientConnected,serverPort:" + serverPort + "--ClientNums:" + clientPool.size() + "--ClientTag:" + client.getUniqueTag());
+//                client.addIOCallback(MainActivity.this);
+////                top_right.setText("已连接");
+//                setRightText("已连接");
+//                handler.sendEmptyMessage(CommandUtil.HANDLER_WHAT_COMMAND);
+////                client.setReaderProtocol(new IReaderProtocol() {
+////                    @Override
+////                    public int getHeaderLength() {
+////                        return 5;
+////                    }
+////
+////                    @Override
+////                    public int getBodyLength(byte[] header, ByteOrder byteOrder) {
+////                        ByteBuffer bb=ByteBuffer.allocate(header.length);
+////                        bb.order(byteOrder);
+////                        bb.put(header);
+////                        int val=bb.getInt(1);
+////
+////                        return val;
+////                    }
+////                });
+//            }
 //
-//                        return val;
-//                    }
-//                });
-            }
+//            @Override
+//            public void onClientDisconnected(IClient client, int serverPort, IClientPool clientPool) {
+//                Log.i("ServerCallback断开", Thread.currentThread().getName()
+//                        + " onClientDisconnected,serverPort:" + serverPort + "--ClientNums:" + clientPool.size() + "--ClientTag:"
+//                        +"原因"+ client.getUniqueTag());
+////                top_right.setText("断开");
+//                setRightText("断开");
+////                                client.removeIOCallback(DemoActivity.this);
+////                mServerManager.listen();
+//            }
+//
+//            @Override
+//            public void onServerWillBeShutdown(int serverPort, IServerShutdown shutdown, IClientPool clientPool, Throwable throwable) {
+//                Log.i("ServerCallback快要断开", Thread.currentThread().getName() + " onServerWillBeShutdown,serverPort:" + serverPort + "--ClientNums:" + clientPool
+//                        .size());
+//                shutdown.shutdown();
+////                top_right.setText("即将断开");
+//                setRightText("即将断开");
+//            }
+//
+//            @Override
+//            public void onServerAlreadyShutdown(int serverPort) {
+//                Log.i("ServerCallback已经关了", Thread.currentThread().getName() + " onServerAlreadyShutdown,serverPort:" + serverPort);
+////                top_right.setText("服务器关闭了");
+//                setRightText("服务器关闭了");
+//            }
+//        });
 
-            @Override
-            public void onClientDisconnected(IClient client, int serverPort, IClientPool clientPool) {
-                Log.i("ServerCallback断开", Thread.currentThread().getName()
-                        + " onClientDisconnected,serverPort:" + serverPort + "--ClientNums:" + clientPool.size() + "--ClientTag:"
-                        +"原因"+ client.getUniqueTag());
-//                top_right.setText("断开");
-                setRightText("断开");
-//                                client.removeIOCallback(DemoActivity.this);
-//                mServerManager.listen();
-            }
+//        if (!mServerManager.isLive()) {
+//            top_right.setText("服务未开启");
+//        } else {
+//            top_right.setText("已启动");
+//        }
+//        top_right.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startServer();
+//            }
+//        });
+//   startServer();
 
-            @Override
-            public void onServerWillBeShutdown(int serverPort, IServerShutdown shutdown, IClientPool clientPool, Throwable throwable) {
-                Log.i("ServerCallback快要断开", Thread.currentThread().getName() + " onServerWillBeShutdown,serverPort:" + serverPort + "--ClientNums:" + clientPool
-                        .size());
-                shutdown.shutdown();
-//                top_right.setText("即将断开");
-                setRightText("即将断开");
-            }
-
-            @Override
-            public void onServerAlreadyShutdown(int serverPort) {
-                Log.i("ServerCallback已经关了", Thread.currentThread().getName() + " onServerAlreadyShutdown,serverPort:" + serverPort);
-//                top_right.setText("服务器关闭了");
-                setRightText("服务器关闭了");
-            }
-        });
-        if (!mServerManager.isLive()) {
-            top_right.setText("服务未开启");
-        } else {
-            top_right.setText("已启动");
+        WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
+        boolean connected = NetUtils.isWifiConnected(mWifiManager);
+        StateResult stateResult = check();
+        Log.e("wifi结果",wifiInfo.getSSID()+"");
+        initManager();
+        initManager2();
+        if (mManager == null) {
+            return;
         }
-        top_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startServer();
-            }
-        });
-   startServer();
-
+        if (!mManager.isConnect()) {
+            initManager();
+            mManager.connect();
+            top_right.setText("正在连接\n"+firstIp);
+            initManager2();
+            mManager2.connect();
+//            mIPET.setEnabled(false);
+//            mPortET.setEnabled(false);
+        } else {
+//            mConnect.setText("Disconnecting");
+            mManager.disconnect();
+        }
     }
-
+    private StateResult check() {
+        StateResult result = checkPermission();
+//        if (!result.permissionGranted) {
+//            return result;
+//        }
+//        result = checkLocation();
+//        result.permissionGranted = true;
+//        if (result.locationRequirement) {
+//            return result;
+//        }
+        result = checkWifi();
+        result.permissionGranted = true;
+        result.locationRequirement = false;
+        return result;
+    }
     private void initPopuWindow(){
         // 设置布局文件
         View view=LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
@@ -302,12 +380,26 @@ private ImageView main_control_settting_img
             lts.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.setAction("android.intent.action.MAIN");
-                    ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.Settings$TetherSettingsActivity");
-                    intent.setComponent(cn);
-                    startActivity(intent);
+
+
+                    Intent i = new Intent();
+                    if(android.os.Build.VERSION.SDK_INT >= 11){
+                        //Honeycomb
+                        i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+                    }else{
+                        //other versions
+                        i.setClassName("com.android.settings"
+                                , "com.android.settings.wifi.WifiSettings");
+                    }
+                    startActivity(i);
+
+
+//                    Intent intent = new Intent();
+//                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+//                    intent.setAction("android.intent.action.MAIN");
+//                    ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.Settings$TetherSettingsActivity");
+//                    intent.setComponent(cn);
+//                    startActivity(intent);
                     mPopupWindow.dismiss();
                 }
             });
@@ -325,16 +417,11 @@ private ImageView main_control_settting_img
         // 设置pop可点击，为false点击事件无效，默认为true
         mPopupWindow.setTouchable(true);
         // 设置点击pop外侧消失，默认为false；在focusable为true时点击外侧始终消失
-        mPopupWindow.setOutsideTouchable(true);
+//        mPopupWindow.setOutsideTouchable(true);
         // 相对于 + 号正下面，同时可以设置偏移量
-        mPopupWindow.showAsDropDown(green_house_ll, -100, 0);
+
         // 设置pop关闭监听，用于改变背景透明度
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-//                toggleBright();
-            }
-        });
+
 
 
     }
@@ -628,17 +715,23 @@ private void initView(){
 
     @Override
     protected void onStop() {
-        mServerManager.shutdown();
-        handler.removeCallbacksAndMessages(null);
+//        mServerManager.shutdown();
+
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
     public  void sendCommand(String cmd){
-        if(iClient==null){
+        if(mManager==null){
           Log.e("ServerCallback","client为空");
             return;
         }
-        iClient.send(new MsgDataBean(
+        mManager.send(new MsgDataBean(
 //                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
                 cmd));
     }
@@ -650,4 +743,317 @@ private void initView(){
             }
         });
     }
+
+    public String getIPAddress() {
+        NetworkInfo info = ((ConnectivityManager)
+                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+//            if (info.getType() == ConnectivityManager.TYPE_MOBILE) {//当前使用2G/3G/4G网络
+//                try {
+//                    //Enumeration<NetworkInterface> en=NetworkInterface.getNetworkInterfaces();
+//                    for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+//                        NetworkInterface intf = en.nextElement();
+//                        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+//                            InetAddress inetAddress = enumIpAddr.nextElement();
+//                            if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+//                                return inetAddress.getHostAddress();
+//                            }
+//                        }
+//                    }
+//                } catch (SocketException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            } else
+//                if (info.getType() == ConnectivityManager.TYPE_WIFI) {//当前使用无线网络
+                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                int ipAddress = wifiInfo.getIpAddress();
+                if (ipAddress == 0) return "未连接wifi";
+                return ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
+                        + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff))+wifiInfo.getBSSID()+wifiInfo.getSSID();
+//            }
+        } else {
+            //当前无网络连接,请在设置中打开网络
+            return "当前无网络连接,请在设置中打开网络";
+        }
+//        return "IP获取失败";
+    }
+
+
+    private ConnectionInfo mInfo,mInfo2;
+    private IConnectionManager mManager,mManager2;
+    private SocketActionAdapter adapter = new SocketActionAdapter() {
+
+        @Override
+        public void onSocketConnectionSuccess(ConnectionInfo info, String action) {
+            MsgDataBean msgDataBean =        new MsgDataBean(
+//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
+                    "434D445F4B4559413032020C01454E44");
+            mManager.send(msgDataBean);
+            Log.e("作为客户端","连接成功,当前IP"+info.getIp());
+            setRightText("连接成功,IP:"+info.getIp());
+
+//            mManager.send(new HandShakeBean());
+//            mConnect.setText("DisConnect");
+//            mIPET.setEnabled(false);
+//            mPortET.setEnabled(false);
+        }
+
+        @Override
+        public void onSocketDisconnection(ConnectionInfo info, String action, Exception e) {
+            Log.e("作为客户端","连接断开");
+//            if (e != null) {
+//                logSend("异常断开(Disconnected with exception):" + e.getMessage());
+//            } else {
+//                logSend("正常断开(Disconnect Manually)");
+//            }
+//            mConnect.setText("Connect");
+//            mIPET.setEnabled(true);
+//            mPortET.setEnabled(true);
+        }
+
+        @Override
+        public void onSocketConnectionFailed(ConnectionInfo info, String action, Exception e) {
+//            logSend("连接失败(Connecting Failed)");
+//            mConnect.setText("Connect");
+//            mIPET.setEnabled(true);
+//            mPortET.setEnabled(true);
+
+            Log.e("作为客户端111","连接失败,当前IP"+info.getIp());
+
+   int ipLast =   ( Integer.parseInt(firstIp.split("\\.")[3])+1)  ;
+   if(ipLast>255){
+       Log.e("扫描失败","扫描失败");
+   }
+   firstIp=firstIp.split("\\.")[0]+"."
+           +firstIp.split("\\.")[1]+"."
+           + firstIp.split("\\.")[2]+"."
+        +ipLast;
+            initManager();
+            mManager.connect();
+            setRightText("正在连接\n"+firstIp);
+        }
+
+        @Override
+        public void onSocketReadResponse(ConnectionInfo info, String action, OriginalData data) {
+            String str = new String(data.getBodyBytes(), Charset.forName("utf-8"));
+            Log.e("作为客户端1收到",str);
+        }
+
+        @Override
+        public void onSocketWriteResponse(ConnectionInfo info, String action, ISendable data) {
+            String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("作为客户端1发送",str);
+        }
+
+        @Override
+        public void onPulseSend(ConnectionInfo info, IPulseSendable data) {
+            String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("作为客户端",str);
+        }
+    };
+
+    private SocketActionAdapter adapter2 = new SocketActionAdapter() {
+
+        @Override
+        public void onSocketConnectionSuccess(ConnectionInfo info, String action) {
+            MsgDataBean msgDataBean =        new MsgDataBean(
+//                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
+                    "434D445F4B4559413032020C01454E44");
+            mManager.send(msgDataBean);
+            Log.e("作为客户端2","连接成功");
+
+
+//            mManager.send(new HandShakeBean());
+//            mConnect.setText("DisConnect");
+//            mIPET.setEnabled(false);
+//            mPortET.setEnabled(false);
+        }
+
+        @Override
+        public void onSocketDisconnection(ConnectionInfo info, String action, Exception e) {
+            Log.e("作为客户端2","连接断开");
+//            if (e != null) {
+//                logSend("异常断开(Disconnected with exception):" + e.getMessage());
+//            } else {
+//                logSend("正常断开(Disconnect Manually)");
+//            }
+//            mConnect.setText("Connect");
+//            mIPET.setEnabled(true);
+//            mPortET.setEnabled(true);
+        }
+
+        @Override
+        public void onSocketConnectionFailed(ConnectionInfo info, String action, Exception e) {
+//            logSend("连接失败(Connecting Failed)");
+//            mConnect.setText("Connect");
+//            mIPET.setEnabled(true);
+//            mPortET.setEnabled(true);
+
+            Log.e("作为客户端2","连接失败");
+        }
+
+        @Override
+        public void onSocketReadResponse(ConnectionInfo info, String action, OriginalData data) {
+            String str = new String(data.getBodyBytes(), Charset.forName("utf-8"));
+            Log.e("作为客户端",str);
+        }
+
+        @Override
+        public void onSocketWriteResponse(ConnectionInfo info, String action, ISendable data) {
+            String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("作为客户端",str);
+        }
+
+        @Override
+        public void onPulseSend(ConnectionInfo info, IPulseSendable data) {
+            String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("作为客户端",str);
+        }
+    };
+
+
+    private void initManager() {
+        final Handler handler = new Handler();
+        mInfo = new ConnectionInfo(firstIp, 6000);
+        mOkOptions = new OkSocketOptions.Builder()
+                .setReconnectionManager(new NoneReconnect())
+                .setConnectTimeoutSecond(10)
+
+                .setCallbackThreadModeToken(new OkSocketOptions.ThreadModeToken() {
+                    @Override
+                    public void handleCallbackEvent(ActionDispatcher.ActionRunnable runnable) {
+                        handler.post(runnable);
+                    }
+                })
+                .build();
+
+        mManager = OkSocket.open(mInfo).option(mOkOptions);
+
+        mManager.registerReceiver(adapter);
+    }
+    private void initManager2() {
+        final Handler handler = new Handler();
+        mInfo2 = new ConnectionInfo("192.168.0.103", 6000);
+        mOkOptions2 = new OkSocketOptions.Builder()
+                .setReconnectionManager(new NoneReconnect())
+                .setConnectTimeoutSecond(2)
+
+                .setCallbackThreadModeToken(new OkSocketOptions.ThreadModeToken() {
+                    @Override
+                    public void handleCallbackEvent(ActionDispatcher.ActionRunnable runnable) {
+                        handler.post(runnable);
+                    }
+                })
+                .build();
+
+        mManager2 = OkSocket.open(mInfo2).option(mOkOptions2);
+
+        mManager.registerReceiver(adapter2);
+    }
+
+    protected static class StateResult {
+        public CharSequence message = null;
+
+        public boolean permissionGranted = false;
+
+        public boolean locationRequirement = false;
+
+        public boolean wifiConnected = false;
+        public boolean is5G = false;
+        public InetAddress address = null;
+        public String ssid = null;
+        public byte[] ssidBytes = null;
+        public String bssid = null;
+    }
+    protected StateResult checkPermission() {
+        StateResult result = new StateResult();
+        result.permissionGranted = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            boolean locationGranted = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED;
+            if (!locationGranted) {
+                String[] splits = "APP require Location permission to get Wi-Fi information. \nClick to request permission".split("\n");
+                if (splits.length != 2) {
+                    throw new IllegalArgumentException("Invalid String @RES esptouch_message_permission");
+                }
+                SpannableStringBuilder ssb = new SpannableStringBuilder(splits[0]);
+                ssb.append('\n');
+                SpannableString clickMsg = new SpannableString(splits[1]);
+                ForegroundColorSpan clickSpan = new ForegroundColorSpan(0xFF0022FF);
+                clickMsg.setSpan(clickSpan, 0, clickMsg.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                ssb.append(clickMsg);
+                result.message = ssb;
+                return result;
+            }
+        }
+
+        result.permissionGranted = true;
+        return result;
+    }
+
+    protected StateResult checkLocation() {
+        StateResult result = new StateResult();
+        result.locationRequirement = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            LocationManager manager = getSystemService(LocationManager.class);
+            boolean enable = manager != null && LocationManagerCompat.isLocationEnabled(manager);
+            if (!enable) {
+                result.message = "Please turn on GPS to get Wi-Fi information.";
+                return result;
+            }
+        }
+
+        result.locationRequirement = false;
+        return result;
+    }
+    private WifiManager mWifiManager;
+    protected StateResult checkWifi() {
+        StateResult result = new StateResult();
+        result.wifiConnected = false;
+        WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
+        boolean connected = NetUtils.isWifiConnected(mWifiManager);
+//        if (!connected) {
+//            result.message = getString(R.string.esptouch_message_wifi_connection);
+//            return result;
+//        }
+
+        String ssid = NetUtils.getSsidString(wifiInfo);
+        int ipValue = wifiInfo.getIpAddress();
+        if (ipValue != 0) {
+            result.address = NetUtils.getAddress(wifiInfo.getIpAddress());
+        } else {
+            result.address = NetUtils.getIPv4Address();
+            if (result.address == null) {
+                result.address = NetUtils.getIPv6Address();
+            }
+        }
+
+        result.wifiConnected = true;
+        result.message = "";
+        result.is5G = NetUtils.is5G(wifiInfo.getFrequency());
+        if (result.is5G) {
+            result.message = "";
+        }
+        result.ssid = ssid;
+        result.ssidBytes = NetUtils.getRawSsidBytesOrElse(wifiInfo, ssid.getBytes());
+        result.bssid = wifiInfo.getBSSID();
+
+        return result;
+    }
+
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if(ev.getAction()==MotionEvent.ACTION_DOWN){
+//            if(ev.getRawX()>green_house_ll.getX()
+//            &&ev.getRawY()<green_house_ll.getY()
+//            ){
+//                return true;
+//            }
+//
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 }
