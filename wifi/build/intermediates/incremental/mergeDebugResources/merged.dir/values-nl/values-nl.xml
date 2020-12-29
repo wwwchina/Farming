@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="7903180715631665059" name="abc_action_bar_home_description">"Navigeren naar startpositie"</string>
+    <string msgid="6794660482873516081" name="abc_action_bar_up_description">"Omhoog navigeren"</string>
+    <string msgid="1155814932213556626" name="abc_action_menu_overflow_description">"Meer opties"</string>
+    <string msgid="2571498368472823490" name="abc_action_mode_done">"Gereed"</string>
+    <string msgid="3732416590524162402" name="abc_activity_chooser_view_see_all">"Alles weergeven"</string>
+    <string msgid="1798588241954930982" name="abc_activitychooserview_choose_application">"Een app selecteren"</string>
+    <string msgid="3403923230105792483" name="abc_capital_off">"UIT"</string>
+    <string msgid="7831734969929204599" name="abc_capital_on">"AAN"</string>
+    <string msgid="5725160506500770567" name="abc_menu_alt_shortcut_label">"Alt +"</string>
+    <string msgid="944415252197684443" name="abc_menu_ctrl_shortcut_label">"Ctrl +"</string>
+    <string msgid="129742188101734366" name="abc_menu_delete_shortcut_label">"Delete"</string>
+    <string msgid="6840127756824236027" name="abc_menu_enter_shortcut_label">"Enter"</string>
+    <string msgid="4974283687810130415" name="abc_menu_function_shortcut_label">"Functie +"</string>
+    <string msgid="8046416353848716905" name="abc_menu_meta_shortcut_label">"Meta +"</string>
+    <string msgid="3271697756921353410" name="abc_menu_shift_shortcut_label">"Shift +"</string>
+    <string msgid="2304645930658438191" name="abc_menu_space_shortcut_label">"spatie"</string>
+    <string msgid="8327365089695024394" name="abc_menu_sym_shortcut_label">"Sym +"</string>
+    <string msgid="3570106412128999382" name="abc_prepend_shortcut_label">"Menu +"</string>
+    <string msgid="940844115270746197" name="abc_search_hint">"Zoeken…"</string>
+    <string msgid="1769270744562318534" name="abc_searchview_description_clear">"Zoekopdracht wissen"</string>
+    <string msgid="908784302972860853" name="abc_searchview_description_query">"Zoekopdracht"</string>
+    <string msgid="5466662225065974044" name="abc_searchview_description_search">"Zoeken"</string>
+    <string msgid="8203855622131699655" name="abc_searchview_description_submit">"Zoekopdracht verzenden"</string>
+    <string msgid="3478748990613108725" name="abc_searchview_description_voice">"Gesproken zoekopdracht"</string>
+    <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Delen met"</string>
+    <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Delen met <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
+    <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Samenvouwen"</string>
+    <string name="about_contributor_title">"Bijdragers"</string>
+    <string name="about_description_text">"Optimaliseer uw wifi-netwerk door het controleren van de wifi-netwerkstatus en de signaalsterkte en door het indentificeren van drukke kanalen met gebruik van een open-source wifi-analyzer voor Android."</string>
+    <string name="about_description_title">"Beschrijving:"</string>
+    <string name="about_libraries_title">"Gebruikte bibiliotheken:"</string>
+    <string name="about_license_title">"Licentie:"</string>
+    <string name="about_write_review">"Schrijf een beoordeling"</string>
+    <string name="action_about">"Over"</string>
+    <string name="action_access_points">"Toegangspunten"</string>
+    <string name="action_channel_available">"Beschikbare kanalen"</string>
+    <string name="action_channel_graph">"Kanaalgrafiek"</string>
+    <string name="action_channel_rating">"Kanaalbeoordeling"</string>
+    <string name="action_export">"Exporteren"</string>
+    <string name="action_settings">"Instellingen"</string>
+    <string name="action_time_graph">"Tijdgrafiek"</string>
+    <string name="action_vendors">"Fabrikanten"</string>
+    <string name="ap_view_compact">"Compact"</string>
+    <string name="ap_view_complete">"Compleet"</string>
+    <string name="ap_view_title">"Toegangspuntweergave"</string>
+    <string name="app_copyright">"Auteursrecht \u00A9 2015 \u002D "</string>
+    <string name="channel_graph_legend_title">"Kanaalgrafiek legendaweergave"</string>
+    <string name="channel_rating_best">"Beste kanalen:"</string>
+    <string name="channel_rating_best_alternative">", probeer alternatieve wifi-band"</string>
+    <string name="channel_rating_best_none">"Geen"</string>
+    <string name="channel_rating_heading_count">"Aantal toegangspunten"</string>
+    <string name="channel_rating_heading_number">"Kanaalnummer"</string>
+    <string name="channel_rating_heading_rating">"Kanaalbeoordeling"</string>
+    <string name="channel_short_name">"Kan."</string>
+    <string name="connection_view_compact">"Compact"</string>
+    <string name="connection_view_complete">"Compleet"</string>
+    <string name="connection_view_hide">"Verbergen"</string>
+    <string name="connection_view_title">"Verbindingsweergave"</string>
+    <string msgid="3209159573327985035" name="copy">"Kopiëren"</string>
+    <string name="country_code_title">"Land"</string>
+    <string msgid="1234962710353108940" name="expand_button_title">"Geavanceerd"</string>
+    <string name="export_not_available">"Export niet beschikbaar"</string>
+    <string name="filter_apply">"Toepassen"</string>
+    <string name="filter_close">"Sluiten"</string>
+    <string name="filter_reset">"Reset"</string>
+    <string name="filter_security_title">"Beveiliging"</string>
+    <string name="filter_strength_title">"Signaalsterkte"</string>
+    <string name="filter_title">"Filter"</string>
+    <string name="filter_wifi_band_title">"Wifi-band"</string>
+    <string name="graph_axis_y">"Signaalsterkte (dBm)"</string>
+    <string name="graph_channel_axis_x">"Wifi-kanalen"</string>
+    <string name="graph_legend_hide">"Verbergen"</string>
+    <string name="graph_legend_left">"Links"</string>
+    <string name="graph_legend_right">"Rechts"</string>
+    <string name="graph_maximum_y_title">"Grafiek maximale signaalsterkte"</string>
+    <string name="graph_time_axis_x">"Aantal scans"</string>
+    <string name="group_by_channel">"Kanaal"</string>
+    <string name="group_by_none">"Niet"</string>
+    <string name="group_by_title">"Groepeer toegangspunten op"</string>
+    <string name="group_by_virtual">"Virtual"</string>
+    <string name="keep_screen_on_title">"Scherm aan houden"</string>
+    <string name="language_title">"Taal"</string>
+    <string name="location_msg">"Deze app kan je precieze locatie opvragen bij de locatieservices terwijl de app wordt gebruikt. De app kan de locatie alleen opvragen als de locatieservices voor je apparaat zijn ingeschakeld. Hierdoor kan het batterijgebruik toenemen."</string>
+    <string name="navigation_drawer_close">"Sluit navigatiepaneel"</string>
+    <string name="navigation_drawer_open">"Open navigatiepaneel"</string>
+    <string name="no_data">"Geen gegevens"</string>
+    <string name="no_data_msg">"Bezoek de rubriek veelgestelde vragen op onze website."</string>
+    <string msgid="478774118347071097" name="not_set">"Niet ingesteld"</string>
+    <string name="permission_msg">"Vanaf Android Marshmallow zijn locatiepermissies benodigd voor een wifi-scan. Er zal je worden gevraagd om locatie-diensten/-permissies in te schakelen. Aangezien deze app geen internettoegang vereist kun je er zeker van zijn dat deze app je locatie niet kan verzenden!"</string>
+    <string msgid="7961817945132860002" name="preference_copied">"\'<ns1:g id="SUMMARY">%1$s</ns1:g>\' is gekopieerd naar het klembord."</string>
+    <string name="scan_speed_summary">"%s seconden tussen elke scan"</string>
+    <string name="scan_speed_title">"Scan-interval"</string>
+    <string name="scanner_message">"Scannen …"</string>
+    <string name="scanner_pause">"Pauzeer"</string>
+    <string name="scanner_play">"Hervat"</string>
+    <string msgid="730395136688082741" name="search_menu_title">"Zoeken"</string>
+    <string name="security_none">"Geen"</string>
+    <string name="sort_by_channel">"Kanaal"</string>
+    <string name="sort_by_signal_strength">"Signaalsterkte"</string>
+    <string name="sort_by_title">"Sorteer toegangspunten op"</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string msgid="5190123168583152844" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string name="theme_dark">"Donker"</string>
+    <string name="theme_light">"Licht"</string>
+    <string name="theme_system">"Systeem"</string>
+    <string name="theme_title">"Thema"</string>
+    <string name="throttling_msg">"Android 9 introduceerde wifi-scanbeperking. Android 10 heeft een nieuwe ontwikkelaaroptie om de beperking uit te schakelen onder (Instellingen > Opties voor ontwikkelaars > Netwerken > wifi-scanbeperking)."</string>
+    <string name="time_graph_legend_title">"Tijdgrafiek legendaweergave"</string>
+    <string msgid="5138405918326871307" name="v7_preference_off">"UIT"</string>
+    <string msgid="27351710992731591" name="v7_preference_on">"AAN"</string>
+    <string name="wifi_off_on_exit_title">"Wifi uitsch. bij afsluiten"</string>
+</resources>

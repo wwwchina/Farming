@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "applicationId": "com.vrem.wifianalyzer",
+  "variantType": "LIBRARY",
+  "elements": [
+    {
+      "outputType": {
+        "type": "AAPT_FRIENDLY_MERGED_MANIFESTS"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 55,
+        "versionName": "3.0.3.0-BETA",
+        "outputFile": "wifi-debug.aar",
+        "fullName": "debug",
+        "baseName": "debug",
+        "dirName": ""
+      },
+      "path": "AndroidManifest.xml",
+      "properties": {
+        "packageId": "com.vrem.wifianalyzer",
+        "split": ""
+      }
+    }
+  ]
+}
