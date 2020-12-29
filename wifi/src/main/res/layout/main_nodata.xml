@@ -90,6 +90,6 @@
 
         <include layout="@layout/info_throttling" />
 
-        <include layout="@layout/info_faq" />
+
     </LinearLayout>
 </LinearLayout>

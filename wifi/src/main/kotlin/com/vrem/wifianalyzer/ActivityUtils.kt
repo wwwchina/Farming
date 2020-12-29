@@ -23,6 +23,7 @@ import android.os.Build
 import android.provider.Settings
 import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
+import com.vrem.wifianalyzer.R
 
 internal fun WifiActivity.keepScreenOn() =
         if (MainContext.INSTANCE.settings.keepScreenOn()) {

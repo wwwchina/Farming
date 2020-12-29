@@ -2,6 +2,7 @@ package com.farming.robot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.location.LocationManagerCompat;
@@ -37,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.farming.robot.data.MsgDataBean;
 import com.farming.robot.fragment.Camera2BasicFragment;
@@ -76,6 +78,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.Manifest.*;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IClientIOCallback {
 private   TextView top_title;
 private   TextView top_right;
@@ -110,7 +114,7 @@ private ImageView main_control_settting_img
     private TextView mIPTv;
 
     private int mPort = 6000;
-    public String firstIp = "192.168.43.1";
+    public String firstIp = "192.168.0.1";
 
 
     public IClient iClient;
@@ -375,6 +379,54 @@ private ImageView main_control_settting_img
 ////            mConnect.setText("Disconnecting");
 //            mManager.disconnect();
 //        }
+
+
+//        if (ContextCompat.checkSelfPermission(MainActivity.this, permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED
+//                || ContextCompat.checkSelfPermission(MainActivity.this, permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+
+//请求权限
+            ActivityCompat.requestPermissions(this
+                    , new String[]{Manifest.permission.ACCESS_COARSE_LOCATION
+                            , Manifest.permission.ACCESS_FINE_LOCATION
+                            , permission.WRITE_EXTERNAL_STORAGE
+                            , permission.READ_EXTERNAL_STORAGE
+                            , permission.CHANGE_NETWORK_STATE
+                            , permission.CHANGE_WIFI_STATE
+                            , permission.CHANGE_CONFIGURATION
+                            , permission.ACCESS_WIFI_STATE
+                    }, 343);
+
+// if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission.READ_CONTACTS)) {
+
+//            Toast.makeText(this, "shouldShowRequestPermissionRationale", Toast.LENGTH_SHORT).show();
+
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -1039,7 +1091,7 @@ private void initView(){
         StateResult result = new StateResult();
         result.permissionGranted = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean locationGranted = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            boolean locationGranted = checkSelfPermission(permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED;
             if (!locationGranted) {
                 String[] splits = "APP require Location permission to get Wi-Fi information. \nClick to request permission".split("\n");
