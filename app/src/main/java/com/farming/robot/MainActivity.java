@@ -10,12 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -66,22 +64,16 @@ import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClient
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClientIOCallback;
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IClientPool;
 import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IServerManager;
-import com.xuhao.didi.socket.common.interfaces.common_interfacies.server.IServerShutdown;
-import com.xuhao.didi.socket.server.action.ServerActionAdapter;
 import com.xuhao.didi.socket.server.impl.OkServerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, IClientIOCallback {
@@ -118,7 +110,7 @@ private ImageView main_control_settting_img
     private TextView mIPTv;
 
     private int mPort = 6000;
-    public String firstIp = "192.168.0.1";
+    public String firstIp = "192.168.43.1";
 
 
     public IClient iClient;
@@ -188,7 +180,7 @@ private ImageView main_control_settting_img
              }
         }
     };
-
+ volatile   boolean isSuccess=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,6 +220,10 @@ private ImageView main_control_settting_img
 //        }).start();
 
 
+
+
+
+
         toIndexFragment();
 
         ArrayList<String> connectedIP = BytesUtils.getConnectedIP();
@@ -242,6 +238,10 @@ private ImageView main_control_settting_img
         OkSocketOptions.setIsDebug(false);
 
         SLog.setIsDebug(true);
+
+
+
+
 
 
 
@@ -323,23 +323,60 @@ private ImageView main_control_settting_img
         boolean connected = NetUtils.isWifiConnected(mWifiManager);
         StateResult stateResult = check();
         Log.e("wifi结果",wifiInfo.getSSID()+"");
-        initManager();
-        initManager2();
-        if (mManager == null) {
-            return;
-        }
-        if (!mManager.isConnect()) {
+
+
+        for (int i = 0; i < 256; i++) {
+            top_title.post(new Runnable() {
+                @Override
+                public void run() {
+
+
+                                          int ipLast =   ( Integer.parseInt(firstIp.split("\\.")[3])+1)  ;
+//                    if(ipLast>255){
+//                        Log.e("扫描失败","扫描失败");
+//                        setRightText("扫描失败");
+//                        return;
+//                    }
+                    firstIp=firstIp.split("\\.")[0]+"."
+                            +firstIp.split("\\.")[1]+"."
+                            + firstIp.split("\\.")[2]+"."
+                            +ipLast;
             initManager();
             mManager.connect();
-            top_right.setText("正在连接\n"+firstIp);
-            initManager2();
-            mManager2.connect();
-//            mIPET.setEnabled(false);
-//            mPortET.setEnabled(false);
-        } else {
-//            mConnect.setText("Disconnecting");
-            mManager.disconnect();
+
+
+
+//            setRightText("正在连接\n"+firstIp);
+                }
+            });
         }
+
+
+
+
+
+
+
+
+//        initManager();
+//        initManager2();
+//        if (mManager == null) {
+//            return;
+//        }
+//        if (!mManager.isConnect()) {
+//            initManager();
+//            mManager.connect();
+//            top_right.setText("正在连接\n"+firstIp);
+//            initManager2();
+//            mManager2.connect();
+////            mIPET.setEnabled(false);
+////            mPortET.setEnabled(false);
+//        } else {
+////            mConnect.setText("Disconnecting");
+//            mManager.disconnect();
+//        }
+
+
     }
     private StateResult check() {
         StateResult result = checkPermission();
@@ -382,16 +419,26 @@ private ImageView main_control_settting_img
                 public void onClick(View v) {
 
 
-                    Intent i = new Intent();
-                    if(android.os.Build.VERSION.SDK_INT >= 11){
-                        //Honeycomb
-                        i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
-                    }else{
-                        //other versions
-                        i.setClassName("com.android.settings"
-                                , "com.android.settings.wifi.WifiSettings");
-                    }
-                    startActivity(i);
+
+
+
+                    Intent intent =new Intent();
+                    intent.setClass(MainActivity.this, com.vrem.wifianalyzer.WifiActivity.class);
+                    startActivity(intent);
+
+
+
+
+//                    Intent i = new Intent();
+//                    if(android.os.Build.VERSION.SDK_INT >= 11){
+//                        //Honeycomb
+//                        i.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+//                    }else{
+//                        //other versions
+//                        i.setClassName("com.android.settings"
+//                                , "com.android.settings.wifi.WifiSettings");
+//                    }
+//                    startActivity(i);
 
 
 //                    Intent intent = new Intent();
@@ -787,12 +834,30 @@ private void initView(){
 
         @Override
         public void onSocketConnectionSuccess(ConnectionInfo info, String action) {
+
+            isSuccess=true;
+            firstIp=info.getIp();
             MsgDataBean msgDataBean =        new MsgDataBean(
 //                        "43 4D 44 5F 4B 45 59 41 30 32 02 0C 01 45 4E 44"));
                     "434D445F4B4559413032020C01454E44");
             mManager.send(msgDataBean);
             Log.e("作为客户端","连接成功,当前IP"+info.getIp());
-            setRightText("连接成功,IP:"+info.getIp());
+            setRightText("连接成功,IP:\n"+info.getIp());
+
+
+            top_title.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initManager();
+                    if(!mManager.isConnect()){
+                        mManager.connect();
+                    }
+
+                }
+            },500);
+
+
+
 
 //            mManager.send(new HandShakeBean());
 //            mConnect.setText("DisConnect");
@@ -803,6 +868,7 @@ private void initView(){
         @Override
         public void onSocketDisconnection(ConnectionInfo info, String action, Exception e) {
             Log.e("作为客户端","连接断开");
+            setRightText("已经断开连接");
 //            if (e != null) {
 //                logSend("异常断开(Disconnected with exception):" + e.getMessage());
 //            } else {
@@ -823,16 +889,18 @@ private void initView(){
             Log.e("作为客户端111","连接失败,当前IP"+info.getIp());
 
    int ipLast =   ( Integer.parseInt(firstIp.split("\\.")[3])+1)  ;
-   if(ipLast>255){
-       Log.e("扫描失败","扫描失败");
-   }
-   firstIp=firstIp.split("\\.")[0]+"."
-           +firstIp.split("\\.")[1]+"."
-           + firstIp.split("\\.")[2]+"."
-        +ipLast;
-            initManager();
-            mManager.connect();
-            setRightText("正在连接\n"+firstIp);
+//   if(ipLast>255){
+//       Log.e("扫描失败","扫描失败");
+//       setRightText("扫描失败");
+//       return;
+//   }
+//   firstIp=firstIp.split("\\.")[0]+"."
+//           +firstIp.split("\\.")[1]+"."
+//           + firstIp.split("\\.")[2]+"."
+//        +ipLast;
+//            initManager();
+//            mManager.connect();
+//            setRightText("正在连接\n"+firstIp);
         }
 
         @Override
@@ -1056,4 +1124,15 @@ private void initView(){
 //        }
 //        return super.dispatchTouchEvent(ev);
 //    }
+
+
+
+
+
+
+
+
+
+
+
 }

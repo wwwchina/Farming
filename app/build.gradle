@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply from: "jacoco.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: "kotlin-allopen"
 android {
     compileSdkVersion 29
 
@@ -27,6 +29,7 @@ dependencies {
 
     api project(path: ':socket-client')
     api project(path: ':socket-server')
+    api project(path: ':wifi')
 
 
 

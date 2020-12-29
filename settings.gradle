@@ -1,4 +1,4 @@
-
+include ':wifi'
 include ':socket-server'
 include ':socket-core'
 include ':socket-client'
