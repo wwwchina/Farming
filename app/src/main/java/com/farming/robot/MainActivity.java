@@ -475,7 +475,7 @@ private ImageView main_control_settting_img
 
 
                     Intent intent =new Intent();
-                    intent.setClass(MainActivity.this, com.vrem.wifianalyzer.WifiActivity.class);
+                    intent.setClass(MainActivity.this, WifiActivity.class);
                     startActivity(intent);
 
 
@@ -670,11 +670,11 @@ private void initView(){
                 ,main_control_settting);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(camera2BasicFragment==null){
-            camera2BasicFragment=new Camera2BasicFragment();
+        if(videoFragment==null){
+            videoFragment=new VideoFragment();
 //            transaction.add(R.id.main_activity_fragment,soilFragment,"b");
         }
-        transaction.replace(R.id.main_activity_fragment,camera2BasicFragment);
+        transaction.replace(R.id.main_activity_fragment,videoFragment);
 //        transaction.show(soilFragment);
         transaction.commit();
     }
